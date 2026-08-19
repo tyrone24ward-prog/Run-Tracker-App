@@ -47,7 +47,7 @@ export default function App() {
   };
 
   return (
-    <div className={tab === 'home' ? 'app on-home' : 'app'}>
+    <div className="app">
       <img className="app-wallpaper" src={WALLPAPER_SRC} alt="" />
       <main className="body">
         {tab === 'home' && <HomeView />}
@@ -85,7 +85,6 @@ function HomeView() {
   return (
     <section className="home">
       <h1 className="home-title">You Better Run</h1>
-      <img className="home-hero" src={WALLPAPER_SRC} alt="Darth Vader" />
     </section>
   );
 }

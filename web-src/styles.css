@@ -33,7 +33,7 @@ body {
   background-color: #000;
 }
 .app-wallpaper {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -41,16 +41,6 @@ body {
   object-position: center 22%;
   z-index: 0;
   pointer-events: none;
-}
-.app.on-home .app-wallpaper {
-  display: none;
-}
-.app.on-home .body {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding-top: 12px;
-  padding-bottom: 8px;
 }
 .body {
   position: relative;
@@ -60,20 +50,10 @@ body {
   padding: 20px 16px 24px;
 }
 .home {
-  flex: 1;
-  min-height: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.home-hero {
-  display: block;
-  width: min(100%, 640px);
-  flex: 1;
-  min-height: 0;
-  object-fit: contain;
-  object-position: center top;
 }
 .home-title {
   margin: 0;
