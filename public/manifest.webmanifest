@@ -1,13 +1,13 @@
 {
-  "name": "Run Tracker",
-  "short_name": "Run Tracker",
+  "name": "You Better Run",
+  "short_name": "Run",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#070B14",
-  "theme_color": "#070B14",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
-      "src": "/icon.png",
+      "src": "/vader-wallpaper.png",
       "sizes": "512x512",
       "type": "image/png"
     }

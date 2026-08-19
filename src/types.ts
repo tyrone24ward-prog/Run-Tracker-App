@@ -1,6 +1,6 @@
 export type UnitSystem = 'imperial' | 'metric';
 
-export type TabId = 'run' | 'stats' | 'timers' | 'profile';
+export type TabId = 'home' | 'run' | 'stats' | 'timers' | 'profile';
 
 export type RunStatus = 'idle' | 'running' | 'paused';
 

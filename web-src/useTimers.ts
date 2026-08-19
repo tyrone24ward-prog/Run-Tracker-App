@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Lap } from '../src/types';
+import { playCountdownDing, playVaderAlert, unlockAudio } from './sounds';
 
 export function useCountdown() {
   const [durationMs, setDurationMs] = useState(10 * 60 * 1000);
@@ -19,6 +20,7 @@ export function useCountdown() {
         setRunning(false);
         setDone(true);
         endAtRef.current = null;
+        playVaderAlert();
         navigator.vibrate?.([400, 150, 400, 150, 700]);
       }
     }, 80);
@@ -28,6 +30,7 @@ export function useCountdown() {
   const start = useCallback(() => {
     const base = remainingMs <= 0 ? durationMs : remainingMs;
     if (base <= 0) return;
+    unlockAudio();
     setDone(false);
     setRemainingMs(base);
     endAtRef.current = Date.now() + base;
@@ -130,6 +133,7 @@ export function useTabata() {
   const phaseRef = useRef<TabataPhase>('idle');
   const roundRef = useRef(1);
   const configRef = useRef(config);
+  const lastDingRef = useRef<number | null>(null);
   configRef.current = config;
   phaseRef.current = phase;
   roundRef.current = round;
@@ -143,6 +147,7 @@ export function useTabata() {
   }, [config, phase]);
 
   const advance = useCallback(() => {
+    lastDingRef.current = null;
     const current = phaseRef.current;
     const cfg = configRef.current;
     if (current === 'prepare') {
@@ -190,12 +195,19 @@ export function useTabata() {
       if (!endAt) return;
       const left = Math.max(0, endAt - Date.now());
       setRemainingMs(left);
+      const sec = Math.ceil(left / 1000);
+      if (left > 0 && sec >= 1 && sec <= 3 && lastDingRef.current !== sec) {
+        lastDingRef.current = sec;
+        playCountdownDing();
+      }
       if (left <= 0) advance();
     }, 80);
     return () => window.clearInterval(id);
   }, [advance, running]);
 
   const start = useCallback(() => {
+    unlockAudio();
+    lastDingRef.current = null;
     if (paused && (phase === 'prepare' || phase === 'work' || phase === 'rest')) {
       setPaused(false);
       endAtRef.current = Date.now() + remainingMs;
@@ -219,6 +231,7 @@ export function useTabata() {
 
   const reset = useCallback(() => {
     endAtRef.current = null;
+    lastDingRef.current = null;
     phaseRef.current = 'idle';
     roundRef.current = 1;
     setPaused(false);

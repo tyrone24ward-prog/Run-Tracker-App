@@ -17,14 +17,17 @@ import { useRunTracker } from './useRunTracker';
 import { useCountdown, useStopwatch, useTabata } from './useTimers';
 
 const TABS: { id: TabId; label: string }[] = [
+  { id: 'home', label: 'Home' },
   { id: 'run', label: 'Run' },
   { id: 'stats', label: 'Stats' },
   { id: 'timers', label: 'Timers' },
   { id: 'profile', label: 'Me' },
 ];
 
+const wallpaper = `url('${import.meta.env.BASE_URL}vader-wallpaper.png')`;
+
 export default function App() {
-  const [tab, setTab] = useState<TabId>('run');
+  const [tab, setTab] = useState<TabId>('home');
   const [timerMode, setTimerMode] = useState<TimerMode>('countdown');
   const [settings, setSettings] = useState<Settings>(() => loadSettings());
   const [history, setHistory] = useState(() => loadHistory());
@@ -44,8 +47,9 @@ export default function App() {
   };
 
   return (
-    <div className="app">
+    <div className="app" style={{ ['--wallpaper' as string]: wallpaper }}>
       <main className="body">
+        {tab === 'home' && <HomeView />}
         {tab === 'run' && (
           <RunView snapshot={run.snapshot} settings={settings} onStart={run.start} onPause={run.pause} onStop={run.stop} />
         )}
@@ -73,6 +77,14 @@ export default function App() {
         ))}
       </nav>
     </div>
+  );
+}
+
+function HomeView() {
+  return (
+    <section className="home">
+      <h1 className="home-title">You Better Run</h1>
+    </section>
   );
 }
 
@@ -144,11 +156,7 @@ function RunView({
           </>
         )}
       </div>
-      <p className="hint">
-        Keep this page open while you run. Add it to your home screen from the browser menu so it
-        feels like an app. The browser version pauses if the phone locks or you switch apps; the
-        installed phone app can keep GPS running. Calories are an estimate from speed and the weight in Me.
-      </p>
+      <p className="hint">Keep this page open while you run.</p>
     </section>
   );
 }
