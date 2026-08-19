@@ -24,7 +24,7 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'profile', label: 'Me' },
 ];
 
-const wallpaper = `url('${import.meta.env.BASE_URL}vader-wallpaper.png')`;
+const WALLPAPER_SRC = './vader-wallpaper.png';
 
 export default function App() {
   const [tab, setTab] = useState<TabId>('home');
@@ -47,7 +47,8 @@ export default function App() {
   };
 
   return (
-    <div className="app" style={{ ['--wallpaper' as string]: wallpaper }}>
+    <div className={tab === 'home' ? 'app on-home' : 'app'}>
+      <img className="app-wallpaper" src={WALLPAPER_SRC} alt="" />
       <main className="body">
         {tab === 'home' && <HomeView />}
         {tab === 'run' && (
@@ -84,6 +85,7 @@ function HomeView() {
   return (
     <section className="home">
       <h1 className="home-title">You Better Run</h1>
+      <img className="home-hero" src={WALLPAPER_SRC} alt="Darth Vader" />
     </section>
   );
 }

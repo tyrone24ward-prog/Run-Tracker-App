@@ -7,7 +7,7 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "/vader-wallpaper.png",
+      "src": "./vader-wallpaper.png",
       "sizes": "512x512",
       "type": "image/png"
     }
