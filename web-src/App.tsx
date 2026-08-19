@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Lap, Settings, TabId, TimerMode } from '../src/types';
 import {
   distanceUnitLabel,
@@ -26,7 +26,28 @@ const TABS: { id: TabId; label: string }[] = [
 
 const WALLPAPER_SRC = './vader-wallpaper.png';
 
+function useViewportLock() {
+  useEffect(() => {
+    const sync = () => {
+      const height = window.visualViewport?.height ?? window.innerHeight;
+      document.documentElement.style.setProperty('--app-height', `${Math.round(height)}px`);
+    };
+    sync();
+    window.visualViewport?.addEventListener('resize', sync);
+    window.visualViewport?.addEventListener('scroll', sync);
+    window.addEventListener('orientationchange', sync);
+    window.addEventListener('resize', sync);
+    return () => {
+      window.visualViewport?.removeEventListener('resize', sync);
+      window.visualViewport?.removeEventListener('scroll', sync);
+      window.removeEventListener('orientationchange', sync);
+      window.removeEventListener('resize', sync);
+    };
+  }, []);
+}
+
 export default function App() {
+  useViewportLock();
   const [tab, setTab] = useState<TabId>('home');
   const [timerMode, setTimerMode] = useState<TimerMode>('countdown');
   const [settings, setSettings] = useState<Settings>(() => loadSettings());
@@ -83,7 +104,7 @@ export default function App() {
 
 function HomeView() {
   return (
-    <section className="home">
+    <section className="page home">
       <h1 className="home-title">You Better Run</h1>
     </section>
   );
@@ -106,7 +127,7 @@ function RunView({
   const status =
     snapshot.status === 'running' ? 'Tracking' : snapshot.status === 'paused' ? 'Paused' : 'Ready';
   return (
-    <section>
+    <section className="page run-page">
       <header>
         <h1>Track my run</h1>
         <p className="sub">{status}</p>
@@ -216,7 +237,7 @@ function StatsView({
     }
   };
   return (
-    <section>
+    <section className={`page stats-page${dailyOpen ? ' is-expanded' : ''}`}>
       <header className="header-row">
         <div>
           <h1>14-day stats</h1>
@@ -251,7 +272,7 @@ function StatsView({
           </span>
         </button>
         {dailyOpen ? (
-          <div id="daily-totals-list">
+          <div id="daily-totals-list" className="daily-list">
             {stats.records
               .slice()
               .reverse()
@@ -290,7 +311,7 @@ function TimersView({
   tabata: ReturnType<typeof useTabata>;
 }) {
   return (
-    <section>
+    <section className="page timers-page">
       <header>
         <h1>Timers</h1>
         <p className="sub">Countdown, laps, and Tabata</p>
@@ -480,7 +501,7 @@ function ProfileView({
   const height =
     settings.units === 'imperial' ? formatFeetInches(settings.heightCm) : `${Math.round(settings.heightCm)} cm`;
   return (
-    <section>
+    <section className="page profile-page">
       <header>
         <h1>Profile</h1>
         <p className="sub">Used for calories and step estimates</p>
