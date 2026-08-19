@@ -1,0 +1,15 @@
+{
+  "name": "Run Tracker",
+  "short_name": "Run Tracker",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#070B14",
+  "theme_color": "#070B14",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

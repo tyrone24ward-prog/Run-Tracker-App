@@ -1,0 +1,67 @@
+{
+  "expo": {
+    "name": "Run Tracker",
+    "slug": "run-tracker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#070B14"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.runtracker.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Run Tracker uses your location to measure distance and speed while you run.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow location Always so your run still counts if the phone locks or you open another app like YouTube.",
+        "NSMotionUsageDescription": "Run Tracker uses motion data to count your steps.",
+        "UIBackgroundModes": ["location"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#070B14",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.runtracker.app",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION",
+        "ACTIVITY_RECOGNITION",
+        "VIBRATE",
+        "WAKE_LOCK",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow Run Tracker to use your location to measure distance and speed.",
+          "locationAlwaysAndWhenInUsePermission": "Allow location Always so your run still counts if the phone locks or you open another app.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Allow Run Tracker to access motion sensors to count steps."
+        }
+      ]
+    ]
+  }
+}
