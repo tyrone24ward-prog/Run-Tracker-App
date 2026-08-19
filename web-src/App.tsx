@@ -193,6 +193,7 @@ function StatsView({
   settings: Settings;
 }) {
   const { units } = settings;
+  const [dailyOpen, setDailyOpen] = useState(false);
   const maxDistance = Math.max(1, ...stats.records.map((d) => d.distanceMeters));
   const share = async () => {
     const message = [
@@ -236,24 +237,41 @@ function StatsView({
         />
         <Stat label="Avg calories" value={formatCalories(stats.avgCalories)} unit="kcal" hint="Per day" />
       </div>
-      <h2>Daily totals</h2>
-      {stats.records
-        .slice()
-        .reverse()
-        .map((day) => (
-          <article key={day.date} className="day">
-            <div className="day-head">
-              <span>{formatDayLabel(day.date)}</span>
-              <b>{formatDistance(day.distanceMeters, units)}</b>
-            </div>
-            <div className="bar">
-              <i style={{ width: `${Math.max(4, (day.distanceMeters / maxDistance) * 100)}%` }} />
-            </div>
-            <small>
-              {formatSteps(day.steps)} steps · {formatCalories(day.calories)} kcal
-            </small>
-          </article>
-        ))}
+      <div className="disclosure">
+        <button
+          type="button"
+          className="disclosure-toggle"
+          aria-expanded={dailyOpen}
+          aria-controls="daily-totals-list"
+          onClick={() => setDailyOpen((open) => !open)}
+        >
+          <span>Daily totals</span>
+          <span className={dailyOpen ? 'chevron open' : 'chevron'} aria-hidden>
+            ▾
+          </span>
+        </button>
+        {dailyOpen ? (
+          <div id="daily-totals-list">
+            {stats.records
+              .slice()
+              .reverse()
+              .map((day) => (
+                <article key={day.date} className="day">
+                  <div className="day-head">
+                    <span>{formatDayLabel(day.date)}</span>
+                    <b>{formatDistance(day.distanceMeters, units)}</b>
+                  </div>
+                  <div className="bar">
+                    <i style={{ width: `${Math.max(4, (day.distanceMeters / maxDistance) * 100)}%` }} />
+                  </div>
+                  <small>
+                    {formatSteps(day.steps)} steps · {formatCalories(day.calories)} kcal
+                  </small>
+                </article>
+              ))}
+          </div>
+        ) : null}
+      </div>
     </section>
   );
 }
