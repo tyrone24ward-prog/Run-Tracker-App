@@ -24,7 +24,7 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'profile', label: 'Me' },
 ];
 
-const WALLPAPER_SRC = './vader-wallpaper.png';
+const WALLPAPER_SRC = `${import.meta.env.BASE_URL}vader-wallpaper.jpg?v=20260820b`;
 
 function useViewportLock() {
   useEffect(() => {
@@ -69,7 +69,13 @@ export default function App() {
 
   return (
     <div className="app">
-      <img className="app-wallpaper" src={WALLPAPER_SRC} alt="" />
+      <img
+        className="app-wallpaper"
+        src={WALLPAPER_SRC}
+        alt=""
+        decoding="async"
+        fetchPriority="high"
+      />
       <main className="body">
         {tab === 'home' && <HomeView />}
         {tab === 'run' && (

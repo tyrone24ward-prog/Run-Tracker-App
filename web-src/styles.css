@@ -65,14 +65,19 @@ body {
 .app-wallpaper {
   position: fixed;
   inset: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   height: 100dvh;
   height: 100svh;
+  max-width: none;
+  max-height: none;
   object-fit: cover;
-  object-position: center 22%;
+  object-position: center 10%;
+  image-rendering: auto;
+  image-rendering: high-quality;
   z-index: 0;
   pointer-events: none;
+  user-select: none;
 }
 
 .body {
